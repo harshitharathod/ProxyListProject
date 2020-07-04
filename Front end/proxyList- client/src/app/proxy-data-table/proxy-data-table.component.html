@@ -1,0 +1,89 @@
+
+
+<mat-toolbar color="primary">
+    <span class="head"  align ="center">ProxyLists</span>
+    <span class="spacer"></span>
+  </mat-toolbar>
+
+
+<div class="container text-center">
+<mat-form-field appearance="fill">
+    <mat-label>Proxy List Providers</mat-label>
+    <mat-select [(ngModel)]="selectedProxy" (ngModelChange)="onProxySelection()">
+      <mat-option value='none'>None</mat-option>
+      <mat-option value="1">https://gimmeproxy.com/api/getProxy</mat-option>
+      <mat-option value="2" >https://proxy11.com/api/proxy.json?key=MTI3OA.Xs--Lg.5FG2Pg_WoLej_ubo8rKpQQbaIZc</mat-option>
+      <mat-option value="3">https://api.getproxylist.com/proxy</mat-option>
+      <mat-option value="4">http://pubproxy.com/api/proxy</mat-option>
+     
+    </mat-select>
+  </mat-form-field><br><br>
+
+  
+
+  <mat-form-field appearance="fill">
+    <mat-label>Filter</mat-label>
+    <mat-select [(ngModel)]="selectedValue" (ngModelChange)="onDisplayingProxySelection()"  >
+        <mat-option value='none' >All Proxies</mat-option>
+      <mat-option value="UP" >WorkingProxies</mat-option>
+    </mat-select>
+    </mat-form-field><br><br>
+
+
+  <mat-form-field>
+    <mat-label>Search by IP Address</mat-label>
+    <mat-icon matPrefix aria-label="Search">search</mat-icon>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. 192.225.137.25">
+   </mat-form-field>
+
+    <mat-table [dataSource]="selectedProxyList">
+      <ng-container matColumnDef="IP Address">
+        <mat-header-cell *matHeaderCellDef [ngClass]="'heading'"> IP Address </mat-header-cell>
+        <mat-cell *matCellDef="let Proxies" > {{Proxies.ipaddress}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="port">
+        <mat-header-cell *matHeaderCellDef [ngClass]="'heading'"> Port </mat-header-cell>
+        <mat-cell *matCellDef="let Proxies" > {{Proxies.port}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="test_result">
+        <mat-header-cell *matHeaderCellDef [ngClass]="'heading'"> Test Result </mat-header-cell>
+        <mat-cell *matCellDef="let Proxies"> {{Proxies.test_result}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="anonymity">
+          <mat-header-cell *matHeaderCellDef [ngClass]="'heading'"> Anonymity </mat-header-cell>
+          <mat-cell *matCellDef="let Proxies"> {{Proxies.anonymity}} </mat-cell>
+        </ng-container>
+      <ng-container matColumnDef="first found Address">
+        <mat-header-cell *matHeaderCellDef [ngClass]="'heading'"> First Found Address </mat-header-cell>
+        <mat-cell *matCellDef="let Proxies"> {{Proxies.firstFoundAddress}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="last found Address">
+        <mat-header-cell *matHeaderCellDef [ngClass]="'heading'"> Last Found Address </mat-header-cell>
+        <mat-cell *matCellDef="let Proxies"> {{Proxies.lastFoundAddress}} </mat-cell>
+      </ng-container>
+     
+
+
+      <!-- Action Column -->
+ <ng-container matColumnDef="action">
+      <mat-header-cell *matHeaderCellDef>
+        <button mat-icon-button color="primary" (click)="addNew()">
+          <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+        </button>
+      </mat-header-cell>
+
+      <mat-cell *matCellDef="let Proxies; let i=index;">
+        <button mat-icon-button color="accent" (click)="startEdit(Proxies)">
+          <mat-icon aria-label="Edit">edit</mat-icon>
+        </button>
+
+        <button mat-icon-button color="accent" (click)="deleteItem(Proxies)">
+          <mat-icon aria-label="Delete">delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+  </div>
